@@ -21,9 +21,9 @@ public interface AkteRepository extends JpaRepository<Akte, Long> {
     @Query(value = "select d from #{#entityName} d where d.inPapierKorb=true ")
     List<Akte> findAllAktenFromPapierKorb();
 
-    @Query(value = "SELECT a FROM Akte a JOIN a.allGrundstuecksInformationen g WHERE g.flurStueck LIKE %:flurStueck%  and" +
-            "  a.neueHeftnummer=:heftnummer order by a.neueHeftnummer")
-    public LinkedHashSet<Akte> findAkteByFiltering(Long heftnummer,String flurStueck);
+    @Query(value = "SELECT a FROM Akte a JOIN a.allGrundstuecksInformationen g WHERE ( :flurStueck is null or g.flurStueck LIKE %:flurStueck% ) and" +
+            "  (:heftnummer is null or a.neueHeftnummer=:heftnummer ) order by a.neueHeftnummer")
+    public LinkedHashSet<Akte> findAkteByFiltering(@Param("heftnummer")Long heftnummer,@Param("flurStueck")String flurStueck);
 
 
 

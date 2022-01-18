@@ -12,4 +12,11 @@ public interface AkteService {
     Long findLastHeftNumber();
     AkteDTO updateAkte(AkteDTO akteDTO) throws Exception;
     AkteDTO hardDeleteAkteById(Long akteId) throws Exception;
+    void deleteAllAkten();
+    List<AkteDTO> getAllAktenFromPapierkorb();
+    AkteDTO temporaryDeletionAndRestore(Long akteId, boolean papierKorb) throws Exception;
+    String deleteMultipleAktenPermanently(List<Long> akteIdList) throws Exception;
+    List<AkteDTO> findAktenByFiltering(Long heftnummer,String flurStueck);
+
+
 }

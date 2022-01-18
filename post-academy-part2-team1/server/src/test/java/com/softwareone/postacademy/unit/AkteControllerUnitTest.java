@@ -21,6 +21,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -241,4 +242,33 @@ public class AkteControllerUnitTest {
 
         mockMvc.perform(putRequest).andExpect(status().is4xxClientError());
     }
+
+
+    @Test
+    public void deleteAkteById_success() throws Exception {
+        AkteDTO akte1= new AkteDTO(5L,2L,11L,new Date(2020-1-7),
+                0L,1L,false,"first akte", "other docs", false, null,null);
+
+        Mockito.when(akteService.hardDeleteAkteById(akte1.getAkteId())).thenReturn(akte1);
+
+        mockMvc.perform(MockMvcRequestBuilders
+                        .delete("/akte/5")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.akteId").value(5L));
+    }
+
+
+//    @Test
+//    public void deleteAkteById_notFound() throws Exception {
+//        Mockito.when(akteService.hardDeleteAkteById(500L)).thenReturn(null);
+//
+//        mockMvc.perform(MockMvcRequestBuilders
+//                        .delete("/akte/500")
+//                        .contentType(MediaType.APPLICATION_JSON))
+//                .andExpect(status().isBadRequest());
+//    }
+
+
+
 }

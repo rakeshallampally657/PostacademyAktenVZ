@@ -35,9 +35,13 @@ create file directory page ?
 
         Bereich refers to Aktenfields: Stadtbezirk, Kennziffer, ...
 
+	letzteHeftnummer -> letzte Aenderung ?
+
     data structure:
         Kennziffer & Stadtbezirk expected values ? + static / dynamic ?
             => simple as possible & static
+
+	
 
 (have to be updated)
 Time Estimations:

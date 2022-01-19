@@ -148,6 +148,21 @@ public class AkteController {
 
     }
 
+    @PatchMapping("/akteRestore")
+    public   ResponseEntity<Object>  restoreAkten(@RequestParam("akteIdList") List<Long> akteIdList){
+        try {
+            //use service
+            List<AkteDTO> akteDTOList=akteService.restoreMultipleAktenFromPapierkorb(akteIdList);
+            return new ResponseEntity<>(akteDTOList,HttpStatus.OK);
+        }//try
+        catch(Exception e) {
+            e.printStackTrace();
+            return new  ResponseEntity<>(e.getMessage(),
+                    HttpStatus.NOT_FOUND);
+        }
+
+    }
+
 
     @DeleteMapping(value = "/akteMultiple", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<String> delete(@RequestParam("akteIdList") List<Long> akteIdList) {
@@ -164,13 +179,14 @@ public class AkteController {
 
 
     @GetMapping("/akte/filterByFields")
-    public  ResponseEntity<?>  findAkteByHeftnummer(@RequestParam(value = "heftnummer",required = false) Long heftnummer,@RequestParam(value = "flurstueck",required = false) String flurStueck){
+    public  ResponseEntity<?>  findAkteByHeftnummer(@RequestParam(value = "heftnummer",required = false) Long heftnummer,@RequestParam(value = "flurstueck",required = false) String flurStueck,
+                                                    @RequestParam(value = "stadtbezirk",required = false)  Long stadtBezirk,
+                                                    @RequestParam(value = "kennziffer",required = false)  Long kennZiffer,
+                                                    @RequestParam(value = "flurnummer",required = false)  Long flur,
+                                                    @RequestParam(value = "freitext",required = false)  String freiText){
         try {
             //use service
-            System.out.println("rakekkkkkkkkkkk");
-            System.out.println(heftnummer);
-            System.out.println(flurStueck);
-            List<AkteDTO> akteDTOList =akteService.findAktenByFiltering(heftnummer,flurStueck);
+            List<AkteDTO> akteDTOList =akteService.findAktenByFiltering(heftnummer,flurStueck,stadtBezirk,kennZiffer,flur,freiText);
             return  new ResponseEntity<>(akteDTOList,HttpStatus.OK);
         }
         catch(Exception e) {

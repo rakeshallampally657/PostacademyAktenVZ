@@ -16,7 +16,8 @@ public interface AkteService {
     List<AkteDTO> getAllAktenFromPapierkorb();
     AkteDTO temporaryDeletionAndRestore(Long akteId, boolean papierKorb) throws Exception;
     String deleteMultipleAktenPermanently(List<Long> akteIdList) throws Exception;
-    List<AkteDTO> findAktenByFiltering(Long heftnummer,String flurStueck);
+    List<AkteDTO> findAktenByFiltering(Long heftnummer,String flurStueck,Long stadtBezirk,Long kennZiffer, Long flur,String freiText);
+    List<AkteDTO> restoreMultipleAktenFromPapierkorb(List<Long> akteIdList) throws Exception;
 
 
 }

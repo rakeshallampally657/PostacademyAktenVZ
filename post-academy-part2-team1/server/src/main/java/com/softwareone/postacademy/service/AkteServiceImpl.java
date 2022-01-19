@@ -161,11 +161,30 @@ public class AkteServiceImpl implements AkteService {
     }
 
     @Override
-    public List<AkteDTO> findAktenByFiltering(Long heftnummer, String flurStueck) {
-        List<Akte> akteList = new ArrayList<Akte>(akteRepository.findAkteByFiltering(heftnummer,flurStueck));
+    public List<AkteDTO> findAktenByFiltering(Long heftnummer, String flurStueck,Long stadtBezirk,Long kennZiffer, Long flur,String freiText) {
+        List<Akte> akteList = new ArrayList<Akte>(akteRepository.findAkteByFiltering(heftnummer,flurStueck,stadtBezirk,kennZiffer,flur,freiText));
         List<AkteDTO> akteDTOList= new ArrayList<>();
         for(Akte akte: akteList){
             akteDTOList.add(convertModelToDTO(akte));
+
+        }
+        return akteDTOList;
+    }
+
+    @Override
+    public List<AkteDTO> restoreMultipleAktenFromPapierkorb(List<Long> akteIdList) throws Exception {
+        List<AkteDTO> akteDTOList= new ArrayList<>();
+        for (Long akteId:akteIdList) {
+            Optional<Akte> akteObtained= akteRepository.findAkteFromPapierkorbByid(akteId);
+            if(akteObtained.isPresent()){
+                Akte akte= akteObtained.get();
+                akte.setInPapierKorb(false);
+                akteDTOList.add(convertModelToDTO(akte));
+            }
+            else{
+                throw new Exception("AKTE ID TO BE RESOTRED FROM PAPIERKORB NOT FOUND EXCEPTION :::" + akteId);
+            }
+
 
         }
         return akteDTOList;
